@@ -1,0 +1,96 @@
+import boto3
+import json
+from datetime import datetime, timedelta
+
+class CostOptimizer:
+    def __init__(self):
+        self.cost_client = boto3.client('ce')
+        self.lambda_client = boto3.client('lambda')
+        self.s3_client = boto3.client('s3')
+    
+    def analyze_costs(self):
+        """Analisa custos dos últimos 30 dias e identifica oportunidades de economia"""
+        end_date = datetime.now().strftime('%Y-%m-%d')
+        start_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+        
+        try:
+            response = self.cost_client.get_cost_and_usage(
+                TimePeriod={
+                    'Start': start_date,
+                    'End': end_date
+                },
+                Granularity='MONTHLY',
+                Metrics=['UnblendedCost'],
+                GroupBy=[
+                    {
+                        'Type': 'DIMENSION',
+                        'Key': 'SERVICE'
+                    }
+                ]
+            )
+            
+            print("Análise de custos realizada com sucesso")
+            return response
+        except Exception as e:
+            print(f"Erro na análise de custos: {str(e)}")
+            return None
+    
+    def create_lambda_function(self, function_name, role_arn, code):
+        """Cria função Lambda para automação de processos"""
+        try:
+            response = self.lambda_client.create_function(
+                FunctionName=function_name,
+                Runtime='python3.9',
+                Role=role_arn,
+                Handler='lambda_function.lambda_handler',
+                Code={'ZipFile': code},
+                Description='Função para automação de processos da farmácia',
+                Timeout=30,
+                MemorySize=128
+            )
+            print(f"Função Lambda {function_name} criada com sucesso")
+            return response
+        except Exception as e:
+            print(f"Erro ao criar Lambda: {str(e)}")
+            return None
+    
+    def configure_s3_intelligent_tiering(self, bucket_name):
+        """Configura S3 Intelligent-Tiering para otimização de custos"""
+        try:
+            # Configura política de tiering inteligente
+            tiering_policy = {
+                'Id': 'IntelligentTieringPolicy',
+                'Filter': {
+                    'Prefix': ''
+                },
+                'Status': 'Enabled',
+                'Tierings': [
+                    {
+                        'Days': 0,
+                        'AccessTier': 'ARCHIVE_ACCESS'
+                    }
+                ]
+            }
+            
+            self.s3_client.put_bucket_intelligent_tiering_configuration(
+                Bucket=bucket_name,
+                Id='CostOptimization',
+                IntelligentTieringConfiguration=tiering_policy
+            )
+            print(f"Intelligent Tiering configurado no bucket {bucket_name}")
+            return True
+        except Exception as e:
+            print(f"Erro ao configurar S3 Intelligent-Tiering: {str(e)}")
+            return False
+
+# Exemplo de uso
+if __name__ == "__main__":
+    optimizer = CostOptimizer()
+    
+    # 1. Análise de custos
+    cost_analysis = optimizer.analyze_costs()
+    
+    # 2. Configuração S3 (exemplo)
+    optimizer.configure_s3_intelligent_tiering('farmacia-dados-saude')
+    
+    print("Implementação de otimização de custos concluída")
