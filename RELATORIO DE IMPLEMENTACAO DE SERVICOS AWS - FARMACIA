@@ -1,0 +1,42 @@
+RELATÓRIO DE IMPLEMENTAÇÃO DE SERVIÇOS AWS - FARMÁCIA
+Data: 26/08/2024
+Empresa: Farmácia Saúde Total
+Responsável: gUSTAV lUIXX
+
+Introdução
+Este relatório apresenta o processo de implementação de ferramentas AWS na empresa Farmácia Saúde Total, realizado por João Silva. O objetivo do projeto foi elencar 3 serviços AMS, com a finalidade
+realizar diminuição de custos imediatos.
+
+Descrição do Projeto
+O projeto de implementação de ferramentas foi dividido em 3 etapas, cada uma com seus objetivos específicos. A seguir, serão descritas as etapas do projeto:
+
+Etapa 1: AWS Cost Explorer
+Nome da ferramenta: AWS Cost Explorer
+
+Foco da ferramenta: Análise e otimização de custos em tempo real
+
+Descrição de caso de uso: Implementação para monitorar gastos com infraestrutura, identificar recursos subutilizados e recomendar economias através de Reserved Instances e Savings Plans para serviços EC2 e RDS.
+
+Etapa 2: AWS Lambda
+Nome da ferramenta: AWS Lambda
+
+Foco da ferramenta: Computação serverless para processamento de dados
+
+Descrição de caso de uso: Automação do processamento de pedidos de medicamentos e integração com sistema de estoque, eliminando a necessidade de servidores dedicados 24/7.
+
+Etapa 3: Amazon S3 Intelligent-Tiering
+Nome da ferramenta: Amazon S3 Intelligent-Tiering
+
+Foco da ferramenta: Armazenamento otimizado de dados com custo automático
+
+Descrição de caso de uso: Armazenamento inteligente de registros de vendas, receitas médicas e documentos fiscais com transição automática entre tiers baseado no acesso.
+
+Conclusão
+A implementação de ferramentas na empresa Farmácia Saúde Total tem como esperado redução de 40% nos custos de infraestrutura no primeiro ano, o que aumentará a eficiência e a produtividade da empresa. Recomenda-se a continuidade da utilização de ferramentas implementadas e a busca por novas informações tecnologias que possam melhorar ainda mais os problemas da empresa.
+
+Anexos
+Manual de utilização do AWS Cost Explorer
+
+Documentação técnica das funções Lambda
+
+Guia de políticas S3 para dados de saúde
